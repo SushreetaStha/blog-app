@@ -1,0 +1,65 @@
+{% extends 'blog/base.html' %} {% block content%}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Django Blog</title>
+  </head>
+  <body>
+    <div class="container-fluid">
+      {% for post in object_list %}
+      <h1>{{ post.title }}</h1>
+      <p>{{ post.created_at}}</p>
+
+      <p
+        class="alert alert-primary"
+        style="color: black; background-color: #efebff; border: none"
+      >
+        {{ post.content }}
+      </p>
+      {% for img in post.image.all %}
+
+      <img
+        src="{{img.image.url}}"
+        alt="Image"
+        style="width: 330px; height: 300px"
+      />
+      {% endfor %} 
+      <br>Tags:
+      {% for t in post.tag.all %}
+        {{ t.title}}
+      {% endfor %}
+      <a class="nav-link" href="{% url 'edit' post.id %}">Edit</a>
+      <a class="nav-link" href="{% url 'delete' post.id %}">Delete</a>
+
+      {% endfor %}
+
+
+
+      {% comment %} Pagination {% endcomment %}
+      <br />
+      <div>
+        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+      </div>
+      <ul class="pagination">
+        {% if page_obj.has_previous %} {% comment %}
+        <li class="page-item"><a href="?page=1">&laquo; First</a></li>
+        {% endcomment %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.previous_page_number }}"
+            >&lt; Previous</a
+          >
+        </li>
+        {% endif %} {% if page_obj.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.next_page_number }}">
+            Next &gt;
+          </a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </body>
+</html>
+
+{% endblock %}
