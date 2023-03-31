@@ -1,11 +1,11 @@
 {% extends 'blog/base.html' %} {% block content%}
-
-<h1>Edit Blog</h1>
+{% load crispy_forms_tags %}
+<h1 class="m-4">Edit Blog</h1>
     
-<form method="post">
+<form class="m-4" method="post">
 <table>
   {% csrf_token %} 
-  {{ form.as_table }}
+  {% crispy form %}
 </table>
 <input type="submit" value="Submit" />
 
